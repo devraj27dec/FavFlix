@@ -1,68 +1,106 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  /* Border radius */
+  --radius: 0.5rem;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* Light mode colors */
+  --color-background: oklch(100% 0 0);
+  --color-foreground: oklch(15.42% 0.034 278.44);
+  
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(15.42% 0.034 278.44);
+  
+  --color-popover: oklch(100% 0 0);
+  --color-popover-foreground: oklch(15.42% 0.034 278.44);
+  
+  --color-primary: oklch(58.54% 0.207 29.23);
+  --color-primary-foreground: oklch(100% 0 0);
+  
+  --color-secondary: oklch(74.61% 0.173 94.57);
+  --color-secondary-foreground: oklch(23.04% 0.043 278.36);
+  
+  --color-muted: oklch(97.11% 0.006 264.53);
+  --color-muted-foreground: oklch(55.45% 0.014 257.77);
+  
+  --color-accent: oklch(74.61% 0.173 94.57);
+  --color-accent-foreground: oklch(23.04% 0.043 278.36);
+  
+  --color-destructive: oklch(67.34% 0.207 27.33);
+  --color-destructive-foreground: oklch(98.23% 0.006 264.53);
+  
+  --color-border: oklch(92.69% 0.006 264.66);
+  --color-input: oklch(92.69% 0.006 264.66);
+  --color-ring: oklch(58.54% 0.207 29.23);
+  
+  --color-sidebar-background: oklch(98.43% 0 0);
+  --color-sidebar-foreground: oklch(36.98% 0.009 285.88);
+  --color-sidebar-primary: oklch(24.36% 0.016 285.82);
+  --color-sidebar-primary-foreground: oklch(98.43% 0 0);
+  --color-sidebar-accent: oklch(96.84% 0.003 286.27);
+  --color-sidebar-accent-foreground: oklch(24.36% 0.016 285.82);
+  --color-sidebar-border: oklch(92.37% 0.006 256.85);
+  --color-sidebar-ring: oklch(67.14% 0.158 254.62);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@media (prefers-color-scheme: dark) {
+  @theme {
+    /* Dark mode colors */
+    --color-background: oklch(23.85% 0.009 256.85);
+    --color-foreground: oklch(95.64% 0 0);
+    
+    --color-card: oklch(26.08% 0.009 256.85);
+    --color-card-foreground: oklch(95.64% 0 0);
+    
+    --color-popover: oklch(26.08% 0.009 256.85);
+    --color-popover-foreground: oklch(95.64% 0 0);
+    
+    --color-primary: oklch(58.54% 0.207 29.23);
+    --color-primary-foreground: oklch(100% 0 0);
+    
+    --color-secondary: oklch(74.61% 0.173 94.57);
+    --color-secondary-foreground: oklch(23.85% 0.009 256.85);
+    
+    --color-muted: oklch(30.76% 0.009 256.85);
+    --color-muted-foreground: oklch(71.19% 0 0);
+    
+    --color-accent: oklch(74.61% 0.173 94.57);
+    --color-accent-foreground: oklch(23.85% 0.009 256.85);
+    
+    --color-destructive: oklch(41.71% 0.158 27.33);
+    --color-destructive-foreground: oklch(95.64% 0 0);
+    
+    --color-border: oklch(30.76% 0.009 256.85);
+    --color-input: oklch(30.76% 0.009 256.85);
+    --color-ring: oklch(58.54% 0.207 29.23);
+    
+    --color-sidebar-background: oklch(24.36% 0.016 285.82);
+    --color-sidebar-foreground: oklch(96.84% 0.003 286.27);
+    --color-sidebar-primary: oklch(59.04% 0.189 261.38);
+    --color-sidebar-primary-foreground: oklch(100% 0 0);
+    --color-sidebar-accent: oklch(29.04% 0.011 277.75);
+    --color-sidebar-accent-foreground: oklch(96.84% 0.003 286.27);
+    --color-sidebar-border: oklch(29.04% 0.011 277.75);
+    --color-sidebar-ring: oklch(67.14% 0.158 254.62);
   }
-  a:hover {
-    color: #747bff;
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
-  button {
-    background-color: #f9f9f9;
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
