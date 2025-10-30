@@ -34,7 +34,7 @@ export const useAuth = () => {
   const logout = () => {
     setSession(false)
     localStorage.removeItem("access_token")
-    window.location.href = ("/signin")
+    window.location.href = ("/")
   }
 
   return {

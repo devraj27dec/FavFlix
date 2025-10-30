@@ -8,8 +8,12 @@ export const columns = (
   onMovieEdit: (id: number) => void,
   onMovieDelete: (id: number) => void
 ): ColumnDef<MovieData>[] => [
-  { accessorKey: "mid", header: "ID" },
-  { accessorKey: "title", header: "Title" },
+  { 
+    header: "S.No",
+    cell: ({ row }) => row.index + 1,
+    size: 80
+  },
+  { accessorKey: "title", header: "Title"},
   { accessorKey: "director", header: "Director" },
   { accessorKey: "location", header: "Location" },
   { accessorKey: "type", header: "Type" },

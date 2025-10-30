@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   flexRender,
@@ -92,7 +90,14 @@ export function DataTable({
           className="max-w-sm"
         />
 
-        <Button onClick={() => onAdd()}>+Add New</Button>
+        <Button 
+          onClick={() => onAdd()} 
+          className="font-bold flex items-center gap-2"
+        >
+          <span className="text-2xl leading-none">+</span>
+          <span>Add New</span>
+        </Button>
+
         {/* <Dialog>
           <form>
             <DialogTrigger asChild>
@@ -185,7 +190,7 @@ export function DataTable({
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="text-left pl-6 py-3">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

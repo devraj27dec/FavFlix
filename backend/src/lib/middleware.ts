@@ -26,10 +26,13 @@ export const isauthenticated = (req:Request , res:Response , next:NextFunction) 
 
 
 export const handleError = (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
-  const { statusCode, message } = err;
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
   res.status(statusCode).json({
-    status: 'error',
+    status: "error",
     statusCode,
     message,
   });
 };
+
