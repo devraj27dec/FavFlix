@@ -9,12 +9,14 @@ import { handleError } from "./lib/middleware.js";
 import cors from 'cors'
 
 
-app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: "https://fav-filx.vercel.app/", 
+  origin: ["http://localhost:5173", "https://fav-filx.vercel.app"],
   credentials: true,
 }));
+
+
+app.set("trust proxy", 1);
 
 app.use("/uploads", express.static("uploads"));
 
