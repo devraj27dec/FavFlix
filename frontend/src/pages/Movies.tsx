@@ -5,7 +5,13 @@ import Loader from "@/components/Loader";
 import { MovieDialog } from "@/components/MovieDialog";
 import { api } from "@/config/api";
 import type { MovieData } from "@/lib/types";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from 'react-hot-toast'
+
+
+
+
 
 export default function Movies() {
   const token = localStorage.getItem("access_token");
@@ -55,6 +61,7 @@ export default function Movies() {
           Authorization: `Bearer ${token}`,
         }
       })
+      toast.success("Movie Deleted Successfully")
       fetchMovies();
     } catch (error) {
       console.log(error)
@@ -90,6 +97,8 @@ export default function Movies() {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        toast.success("Movie Updated Successfully")
       } else {
         console.log("Adding new movie:", data);
         await api.post(`/movie/add`, formData, {
@@ -98,11 +107,16 @@ export default function Movies() {
             Authorization: `Bearer ${token}`,
           },
         });
+        toast.success("Movie Added Successfully")
       }
-      
       fetchMovies();
     } catch (error) {
       console.log("Submission Failed", error);
+      if (axios.isAxiosError(error)) {
+    toast.error(error.response?.data?.message || "Something went wrong!");
+      } else {
+        toast.error("Unexpected error occurred");
+      }
     }
   };
 

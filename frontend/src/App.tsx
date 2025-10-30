@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "react-hot-toast";
 
 const SignIn = lazy(() => import("./pages/SignIn"));
 const Signup = lazy(() => import("./pages/Signup"));
@@ -13,6 +14,7 @@ const Movies = lazy(() => import("./pages/Movies"));
 function App() {
 
   return (
+
     <Router>
       <Suspense fallback={<Loader />}>
         <Routes>
@@ -27,6 +29,8 @@ function App() {
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Suspense>
+
+      <Toaster position="top-right" />
     </Router>
   );
 }

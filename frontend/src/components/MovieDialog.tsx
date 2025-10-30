@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import type { MovieData } from "@/lib/types";
+import { MovieType, type MovieShema } from "@/lib/schema";
+import toast from "react-hot-toast";
 
 
 interface MovieDialogProps {
@@ -28,7 +30,7 @@ export function MovieDialog({
   initialData = {},
   isEdit = false,
 }: MovieDialogProps) {
-  const [formData, setFormData] = useState<MovieData>({
+  const [formData, setFormData] = useState<MovieShema>({
     title: "",
     director: "",
     type: "",
@@ -37,6 +39,9 @@ export function MovieDialog({
     location: "",
     year: "",
   });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
 
   useEffect(() => {
     if (initialData) {
@@ -47,9 +52,24 @@ export function MovieDialog({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev:any) => ({ ...prev, [id]: value }));
+    setErrors((prev) => ({ ...prev, [id]: "" }));
   };
 
   const handleSubmit = () => {
+
+    const result = MovieType.safeParse(formData);
+
+    if (!result.success) {
+      const newErrors: Record<string, string> = {};
+      result.error.issues.forEach((err:any) => {
+        const field = err.path[0] as string;
+        newErrors[field] = err.message;
+      });
+      setErrors(newErrors);
+      toast.error("Please fix validation errors before submitting.");
+      return;
+    }
+
     onSubmit(formData);
     onClose();
   };
@@ -69,35 +89,50 @@ export function MovieDialog({
         </DialogHeader>
         
         <div className="grid grid-cols-2 gap-4">
+          {/* Title */}
           <div className="grid gap-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">Title *</Label>
             <Input
               id="title"
               placeholder="Enter Title"
               value={formData.title}
               onChange={handleChange}
+              className={errors.title ? "border-red-500" : ""}
             />
+            {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
           </div>
+
+          {/* Director */}
           <div className="grid gap-2">
-            <Label htmlFor="director">Director</Label>
+            <Label htmlFor="director">Director *</Label>
             <Input
               id="director"
               placeholder="Enter Director Name"
               value={formData.director}
               onChange={handleChange}
+              className={errors.director ? "border-red-500" : ""}
             />
+            {errors.director && (
+              <p className="text-red-500 text-sm">{errors.director}</p>
+            )}
           </div>
+
+          {/* Type */}
           <div className="grid gap-2">
-            <Label htmlFor="type">Movie Type</Label>
+            <Label htmlFor="type">Movie Type *</Label>
             <Input
               id="type"
               placeholder="Enter Movie Type"
               value={formData.type}
               onChange={handleChange}
+              className={errors.type ? "border-red-500" : ""}
             />
+            {errors.type && <p className="text-red-500 text-sm">{errors.type}</p>}
           </div>
+
+          {/* Budget */}
           <div className="grid gap-2">
-            <Label htmlFor="budget">Budget</Label>
+            <Label htmlFor="budget">Budget *</Label>
             <Input
               id="budget"
               type="number"
@@ -106,41 +141,61 @@ export function MovieDialog({
               onChange={(e) =>
                 setFormData({ ...formData, budget: Number(e.target.value) })
               }
+              className={errors.budget ? "border-red-500" : ""}
             />
+            {errors.budget && (
+              <p className="text-red-500 text-sm">{errors.budget}</p>
+            )}
           </div>
+
+          {/* Location */}
           <div className="grid gap-2">
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location">Location *</Label>
             <Input
               id="location"
               placeholder="Enter Location"
               value={formData.location}
               onChange={handleChange}
+              className={errors.location ? "border-red-500" : ""}
             />
+            {errors.location && (
+              <p className="text-red-500 text-sm">{errors.location}</p>
+            )}
           </div>
+
+          {/* Year */}
           <div className="grid gap-2">
-            <Label htmlFor="year">Year</Label>
+            <Label htmlFor="year">Year *</Label>
             <Input
               id="year"
-              type="number"
+              type="text"
               placeholder="Enter Year"
               value={formData.year}
               onChange={handleChange}
+              className={errors.year ? "border-red-500" : ""}
             />
+            {errors.year && <p className="text-red-500 text-sm">{errors.year}</p>}
           </div>
 
+          {/* Duration */}
           <div className="grid gap-2">
-            <Label htmlFor="duration">Duration</Label>
+            <Label htmlFor="duration">Duration *</Label>
             <Input
               id="duration"
               type="text"
               placeholder="Enter Duration"
               value={formData.duration}
               onChange={handleChange}
+              className={errors.duration ? "border-red-500" : ""}
             />
+            {errors.duration && (
+              <p className="text-red-500 text-sm">{errors.duration}</p>
+            )}
           </div>
 
+          {/* Image */}
           <div className="grid gap-2">
-            <Label htmlFor="year">Image</Label>
+            <Label htmlFor="image">Image</Label>
             <Input
               id="image"
               type="file"
@@ -148,7 +203,7 @@ export function MovieDialog({
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
-                  setFormData((prev) => ({ ...prev, image: file }));
+                  setFormData((prev) => ({ ...prev, image: file.name }));
                 }
               }}
             />
