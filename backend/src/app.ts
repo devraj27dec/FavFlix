@@ -12,7 +12,7 @@ import cors from 'cors'
 app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: "*", 
+  origin: "https://fav-filx.vercel.app/", 
   credentials: true,
 }));
 
