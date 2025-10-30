@@ -25,7 +25,7 @@ const Signup = () => {
         password,
         username
       })
-      navigate('/login')
+      navigate('/signin')
     } catch (error) {
       console.log(error)
     }

@@ -1,15 +1,14 @@
-import type { Request , Response } from "express"
+import type { NextFunction, Request , Response } from "express"
 import { MovieSchema } from "../lib/types.js"
 import { ErrorHandler } from "../lib/ErrorHandler.js"
-import { PrismaClient } from "@prisma/client";
+import {prisma} from '../lib/prismaClient.js'
 import { JSONResponse } from "../lib/jsonresponse.js.js"
 import fs from 'fs'
 
 
-const prisma = new PrismaClient()
 
 export class MovieController {
-    static AddMovie = async (req:Request , res: Response) => {
+    static AddMovie = async (req:Request , res: Response , next:NextFunction) => {
         try {
             const userId = (req as any).userId;
 
@@ -18,7 +17,7 @@ export class MovieController {
             const parsedData = MovieSchema.safeParse(req.body)
             // console.log("parsedData" , parsedData)
             if(!parsedData.success){
-                throw new ErrorHandler(401 , "Check your Missing Fields")
+                throw new ErrorHandler(401 , "Check your Input Fields")
             }
             
 
@@ -43,13 +42,12 @@ export class MovieController {
             })
             return JSONResponse.success(res , movie , "Movie Created successfully" , 201)
         } catch (error) {
-            console.log("error" , error)
-            throw new ErrorHandler(500 , "Internal Server Error")
-        }
+            next(error)
+        }   
     }
 
 
-    static UpdateMovie = async(req: Request , res: Response) => {
+    static UpdateMovie = async(req: Request , res: Response , next:NextFunction) => {
         try {
             const userId = (req as any).userId;
 
@@ -107,7 +105,7 @@ export class MovieController {
                 fs.unlinkSync(req.file.path);
             }
             console.log(error)
-            throw new ErrorHandler(500 , "Internal Server Error")   
+            next(error) 
         }
     }
 
@@ -124,7 +122,7 @@ export class MovieController {
     }
 
 
-    static deleteMovie = async(req:Request , res:Response) => {
+    static deleteMovie = async(req:Request , res:Response , next:NextFunction) => {
         try {
             const userId = (req as any).userId;
             if (!userId) throw new ErrorHandler(401, "Unauthorized");
@@ -151,7 +149,7 @@ export class MovieController {
             })
             return JSONResponse.success(res , {} , "Movie Deleted successfully" , 201)
         } catch (error) {
-            throw new ErrorHandler(500 , "Internal Server Error")   
+            next(error)  
         }
     }
 }
