@@ -145,6 +145,17 @@ npm run dev
 
 ---
 
+## 👤 **Tested User Credentials**
+
+You can use the following demo credentials to log in and test the application:
+
+```bash
+Email: dev12@test.com
+Password: 123456
+```
+
+---
+
 ## 🌐 Deployment Notes
 
 * Backend deployed on **Render** or **Railway**.
