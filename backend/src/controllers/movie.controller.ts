@@ -1,7 +1,7 @@
 import type { Request , Response } from "express"
 import { MovieSchema } from "../lib/types.js"
 import { ErrorHandler } from "../lib/ErrorHandler.js"
-import { PrismaClient } from "../generated/prisma/client.js"
+import { PrismaClient } from "@prisma/client";
 import { JSONResponse } from "../lib/jsonresponse.js.js"
 import fs from 'fs'
 

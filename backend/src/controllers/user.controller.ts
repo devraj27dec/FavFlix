@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma/client.js";
+import { PrismaClient } from "@prisma/client";
 import { registerSchema , loginSchema } from "../lib/types.js";
 import bcrypt from "bcryptjs";
 import { ErrorHandler } from "../lib/ErrorHandler.js";
