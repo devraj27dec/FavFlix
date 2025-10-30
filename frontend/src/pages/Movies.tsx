@@ -69,24 +69,40 @@ export default function Movies() {
 
   const handleSubmit = async (data: MovieData) => {
     try {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("director", data.director);
+      formData.append("type", data.type);
+      formData.append("budget", String(data.budget));
+      formData.append("location", data.location);
+      formData.append("duration", data.duration);
+      formData.append("year", data.year);
+
+      if (data.image) {
+        formData.append("image", data.image);
+      }
+      console.log("image" , data.image)
+
       if (isEdit && selectedMovie) {
-        await api.post(`/movie/update/${selectedMovie.mid}` , data, {
+        await api.post(`/movie/update/${selectedMovie.mid}`, formData, {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
-          }
-        })
+          },
+        });
       } else {
         console.log("Adding new movie:", data);
-        await api.post(`/movie/add` , data, {
+        await api.post(`/movie/add`, formData, {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
-          }
-        })
+          },
+        });
       }
-  
-      fetchMovies()
+      
+      fetchMovies();
     } catch (error) {
-      console.log("Submission Failed" , error)
+      console.log("Submission Failed", error);
     }
   };
 

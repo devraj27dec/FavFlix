@@ -144,9 +144,13 @@ export function MovieDialog({
             <Input
               id="image"
               type="file"
-              placeholder="Add Image"
-              value={formData.image}
-              onChange={handleChange}
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setFormData((prev) => ({ ...prev, image: file }));
+                }
+              }}
             />
           </div>
         </div>
