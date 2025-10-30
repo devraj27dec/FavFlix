@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc && nodemon ./dist/app.js",
     "start": "node ./dist/app.js",
+    "postinstall": "prisma generate",
+    "build": "tsc",
     "watch": "tsc -w"
   },
   "keywords": [],
